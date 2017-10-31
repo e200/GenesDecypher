@@ -50,20 +50,49 @@ int main(int argc, char *argv[])
     * Aqui vamos ler o conteúdo de cada arquivo
     * correspondente ao seu ponteiro.
     */
-    ptr_prot     = fopen("proteinas", "r");
-    ptr_gene_seq = fopen("sequencia_de_genes", "r");
+    ptr_prot     = fopen("dados/proteinas", "r");
+    ptr_gene_seq = fopen("dados/sequencia_de_genes", "r");
 
-    while (fgets(proteinas, 1000, ptr_prot))
+    /**
+     * Uma vez que iremos pegar cada carácter
+     * de uma proteína carácter por carácter,
+     * vamos armazenar cada carácter na variável
+     * `c`.
+     */
+    char c;
+
+    /**
+     * Precisamos também de um contandor,
+     * só assim saberemos qual carácter estamos
+     * a ler actualmente.
+     */
+    int i = 0;
+
+    /**
+     * Aqui lemos cada carácter da nossa proteína,
+     * e armazenamos no nosso vector `proteínas`.
+     */
+    while ((c = getc(ptr_prot)) != EOF)
     {
-        printf("%s\n", proteinas);
-    }
+        proteinas[i] = c;
 
-    while (fgets(sequencia_de_genes, 10000, ptr_gene_seq))
-    {
-        printf("%s\n", sequencia_de_genes);
+        i++;
     }
-
+    
+    /**
+     * Já lemos o arquivo, vamos fechá-lo
+     * para poupar memória.
+     *
+     * Dica: Esse é um dos motivos que faz
+     * a maioria fugir do C, garbage colector.
+     */
     fclose(ptr_prot);
+
+    /**
+     * Até aqui já temos as nossas proteínas.
+     *
+     * Vamos agora pegar os nossos codóns.
+     */
     fclose(ptr_gene_seq);
     
     return 0;
