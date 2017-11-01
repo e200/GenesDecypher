@@ -31,12 +31,12 @@
 #define LIMITE_DE_SEQUENCIA_DE_GENES 10000
 
 /**
- * Retorna um vetor contendo em cada
- * um dos seus índices o carácter que
- * está na mesma posição no arquivo lido.
+ * Armazena as proteínas.
  */
-int pegue_as_proteinas(char ficheiro_proteinas[], char *proteinas)
+int pegue_as_proteinas(char ficheiro_proteinas[], char *proteinas, int *n)
 {
+    int i = 0;
+    
     /**
     * Pointeiro para o ficheiro.
     *
@@ -52,13 +52,6 @@ int pegue_as_proteinas(char ficheiro_proteinas[], char *proteinas)
     */
     char c;
 
-    /**
-    * Contador.
-    *
-    * Contará a posição de cada carácter a ser lido.
-    */
-    int i = 0;
-
     // Abrindo o arquivo.
     ptr_ficheiro = fopen(ficheiro_proteinas, "r");
 
@@ -73,6 +66,8 @@ int pegue_as_proteinas(char ficheiro_proteinas[], char *proteinas)
         i++;
     }
 
+    *n = i;
+    
     // Nunca se esqueça de limpar a memória.
     fclose(ptr_ficheiro);
 
@@ -81,19 +76,21 @@ int pegue_as_proteinas(char ficheiro_proteinas[], char *proteinas)
 
 /**
 * Pega a sequência dos genes
-* e associa a cada proteína.
+* e associa a sua respectiva
+* proteína.
 */
-int pegue_seq_genes(
+int pegue_as_seq_de_genes(
     char ficheiro_seq_genes[],
-    char sequencia_de_genes[][LIMITE_DE_SEQUENCIA_DE_GENES]
+    char sequencia_de_genes[][LIMITE_DE_SEQUENCIA_DE_GENES],
+    int num_prot
 ) {
     FILE *ptr_ficheiro;
 
     char c, sequencia[2];
 
     int
-        i = 0,
-        l = 0;
+        linha = 0,
+        coluna = 0;
 
     // Abrindo o arquivo.
     ptr_ficheiro = fopen(ficheiro_seq_genes, "r");
@@ -104,15 +101,22 @@ int pegue_seq_genes(
     */
     while ((c = getc(ptr_ficheiro)) != EOF)
     {
-        if (l != 3)
+        if (coluna != 2)
         {
-            sequencia_de_genes[i][l] = c;
-            l++;
+            sequencia_de_genes[linha][coluna] = c;
+            coluna++;
         }
         else
         {
-            l = 0;
-            i++;
+            sequencia_de_genes[linha][coluna] = c;
+
+            linha++;
+            coluna = 0;
+        }
+
+        if (linha == num_prot)
+        {
+            break;
         }
     }
 
@@ -131,6 +135,8 @@ int pegue_seq_genes(
  */
 int main(int argc, char *argv[])
 {
+    int num_prot;
+
     char
         // Vetor que armazenará os codóns encontrados.
         codons[NUMERO_DE_CODONS],
@@ -149,19 +155,26 @@ int main(int argc, char *argv[])
      * Aqui vamos ler o conteúdo de cada arquivo
      * correspondente ao seu ponteiro.
      */
-    pegue_as_proteinas("dados/proteinas", proteinas);
+    pegue_as_proteinas("dados/proteinas", proteinas, &num_prot);
 
-    pegue_seq_genes("dados/sequencia_de_genes", sequencia_de_genes);
+    pegue_as_seq_de_genes("dados/sequencia_de_genes", sequencia_de_genes, num_prot);
 
-    for (int i = 0; i < sizeof(sequencia_de_genes); i++)
+    for (int i = 0; i < NUMERO_DE_CODONS; i++)
     {
-        for (int l = 0; l < sizeof(sequencia_de_genes[i]); l++)
+        for (int l = 0; l < LIMITE_DE_SEQUENCIA_DE_GENES; l++)
         {
             printf("%c", sequencia_de_genes[i][l]);
         }
-    }
 
-    //printf("%s", sequencia_de_genes[0][2]);
+        if (i == num_prot)
+        {
+            break;
+        }
+    }
+    
+    printf("%c", num_prot);
+    
+    //printf("%s", sequencia_de_genes[0][2]);*/
     
     return 0;
 }
