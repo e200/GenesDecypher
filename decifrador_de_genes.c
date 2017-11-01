@@ -1,8 +1,8 @@
 /**
  * Autor: Eleandro Duzentos <eleandro@inbox.ru>
- * Repositório: https://github.com/e200
+ * Repositório: https://github.com/e200/GenesDecypher/blob/master/
  *
- * Data: 
+ * Data: 31/10/2017
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +20,44 @@
  */
 #define LIMITE_DE_PROTEINAS          1000
 #define LIMITE_DA_SEQUENCIA_DE_GENES 10000
+
+/**
+ * Retorna um vetor contendo em cada
+ * um dos seus índices o carácter que
+ * está na mesma posição no arquivo lido.
+ */
+ int cread_file(char nome_do_arquivo[], char *char_vetor)
+ {
+     // Pointeiro para o ficheiro a ser lido.
+     FILE *ptr_file;
+
+     /**
+      * Uma vez que iremos pegar carácter
+      * por carácter, vamos armazenar cada
+      carácter na variável `c`.
+      */
+      char c;
+      
+     /**
+     * Precisamos saber a posição do carácter
+     * que estamos a ler para assim podermos
+     * indexar ao nosso vetor de retorno.
+     */
+     int i = 0;
+ 
+     /**
+     * Aqui lemos cada carácter e armazenamos
+     * no nosso vector.
+     */
+     while ((c = getc(ptr_ficheiro)) != EOF)
+     {
+         char_vetor[i] = c;
+ 
+         i++;
+     }
+ 
+     return 0;
+ }
 
 /**
  * O parámetro `argc` indica o número
@@ -53,46 +91,37 @@ int main(int argc, char *argv[])
     ptr_prot     = fopen("dados/proteinas", "r");
     ptr_gene_seq = fopen("dados/sequencia_de_genes", "r");
 
-    /**
-     * Uma vez que iremos pegar cada carácter
-     * de uma proteína carácter por carácter,
-     * vamos armazenar cada carácter na variável
-     * `c`.
-     */
-    char c;
-
-    /**
-     * Precisamos também de um contandor,
-     * só assim saberemos qual carácter estamos
-     * a ler actualmente.
-     */
-    int i = 0;
-
-    /**
-     * Aqui lemos cada carácter da nossa proteína,
-     * e armazenamos no nosso vector `proteínas`.
-     */
-    while ((c = getc(ptr_prot)) != EOF)
-    {
-        proteinas[i] = c;
-
-        i++;
-    }
+    cread_file(ptr_prot, proteinas);
     
     /**
      * Já lemos o arquivo, vamos fechá-lo
      * para poupar memória.
      *
      * Dica: Esse é um dos motivos que faz
-     * a maioria fugir do C, garbage colector.
+     * a maioria fugir do C, garbage collector.
      */
     fclose(ptr_prot);
+    
+    // Reiniciando a contagem de carácteres.
+    //i = 0;
 
     /**
      * Até aqui já temos as nossas proteínas.
      *
      * Vamos agora pegar os nossos codóns.
      */
+
+     /**
+     * Aqui lemos cada carácter da nossa sequencia
+     * de codóns.
+     *
+    while ((c = getc(ptr_gene_seq)) != EOF)
+    {
+        ptr_gene_seq[i] = c;
+
+        i++;
+    }
+*/
     fclose(ptr_gene_seq);
     
     return 0;
