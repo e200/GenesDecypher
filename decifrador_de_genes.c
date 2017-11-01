@@ -1,63 +1,130 @@
 /**
+ * Data: 31/10/2017
+ *
  * Autor: Eleandro Duzentos <eleandro@inbox.ru>
  * Repositório: https://github.com/e200/GenesDecypher/blob/master/
- *
- * Data: 31/10/2017
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 
 /**
-  * Este é o número de combinações de codóns.
-  * Vejam a tabela de codóns para entenderem.
-  */
-#define LIMITE_DE_CODONS 64
+ * Este é o número de combinações para codóns
+ * actualmente conhecido.
+ *
+ * Existem 4 tipos de codóns, isso significa
+ * que só existem 64 possíveis combinações
+ * entre os mesmos. (4 x 4 x 4 = 64).
+ *
+ * Vejam a tabela de codóns para entenderem.
+ */
+#define NUMERO_DE_CODONS 64
 
 /**
- * Uma vez que não sabemos o número de proteinas
- * nem o número de carácteres das sequências, vamos
- * usar um array com 10000 índices cada, só para garantir.
+ * Uma vez que não sabemos o número de proteinas,
+ * vamos usar um vetor com 1000 índices, só para garantir.
  */
-#define LIMITE_DE_PROTEINAS          1000
-#define LIMITE_DA_SEQUENCIA_DE_GENES 10000
+#define LIMITE_DE_PROTEINAS 1000
+/**
+ * TODO: Add descrition.
+ */
+#define LIMITE_DE_SEQUENCIA_DE_GENES 10000
 
 /**
- * Retorna um vetor contendo em cada
- * um dos seus índices o carácter que
- * está na mesma posição no arquivo lido.
+ * Armazena as proteínas.
  */
- int cread_file(char nome_do_arquivo[], char *char_vetor)
- {
-     // Pointeiro para o ficheiro a ser lido.
-     FILE *ptr_file;
+int pegue_as_proteinas(char ficheiro_proteinas[], char *proteinas, int *n)
+{
+    int i = 0;
+    
+    /**
+    * Pointeiro para o ficheiro.
+    *
+    * O ficheiro é de onde as proteínas
+    * serão lidas.
+    */
+    FILE *ptr_ficheiro;
 
-     /**
-      * Uma vez que iremos pegar carácter
-      * por carácter, vamos armazenar cada
-      carácter na variável `c`.
-      */
-      char c;
-      
-     /**
-     * Precisamos saber a posição do carácter
-     * que estamos a ler para assim podermos
-     * indexar ao nosso vetor de retorno.
-     */
-     int i = 0;
- 
-     /**
-     * Aqui lemos cada carácter e armazenamos
-     * no nosso vector.
-     */
-     while ((c = getc(ptr_ficheiro)) != EOF)
-     {
-         char_vetor[i] = c;
- 
-         i++;
-     }
- 
-     return 0;
- }
+    /**
+    * Uma vez que iremos pegar carácter
+    * por carácter, vamos armazenar cada
+    * carácter na variável `c`.
+    */
+    char c;
+
+    // Abrindo o arquivo.
+    ptr_ficheiro = fopen(ficheiro_proteinas, "r");
+
+    /**
+    * Aqui lemos cada carácter e armazenamos
+    * no nosso vector `proteinas`.
+    */
+    while ((c = getc(ptr_ficheiro)) != EOF)
+    {
+        proteinas[i] = c;
+
+        i++;
+    }
+
+    *n = i;
+    
+    // Nunca se esqueça de limpar a memória.
+    fclose(ptr_ficheiro);
+
+    return 0;
+}
+
+/**
+* Pega a sequência dos genes
+* e associa a sua respectiva
+* proteína.
+*/
+int pegue_as_seq_de_genes(
+    char ficheiro_seq_genes[],
+    char sequencia_de_genes[][LIMITE_DE_SEQUENCIA_DE_GENES],
+    int num_prot
+) {
+    FILE *ptr_ficheiro;
+
+    char c, sequencia[2];
+
+    int
+        linha = 0,
+        coluna = 0;
+
+    // Abrindo o arquivo.
+    ptr_ficheiro = fopen(ficheiro_seq_genes, "r");
+
+    /**
+    * Aqui lemos cada carácter e armazenamos
+    * no nosso vector `proteinas`.
+    */
+    while ((c = getc(ptr_ficheiro)) != EOF)
+    {
+        if (coluna != 2)
+        {
+            sequencia_de_genes[linha][coluna] = c;
+            coluna++;
+        }
+        else
+        {
+            sequencia_de_genes[linha][coluna] = c;
+
+            linha++;
+            coluna = 0;
+        }
+
+        if (linha == num_prot)
+        {
+            break;
+        }
+    }
+
+    // Nunca se esqueçam de limpar a memória.
+    fclose(ptr_ficheiro);
+
+    return 0;
+}
 
 /**
  * O parámetro `argc` indica o número
@@ -68,61 +135,46 @@
  */
 int main(int argc, char *argv[])
 {
+    int num_prot;
+
     char
-        // Vetor que armazenará os codons encontrados.
-        codons[LIMITE_DE_CODONS],
+        // Vetor que armazenará os codóns encontrados.
+        codons[NUMERO_DE_CODONS],
         // Vetor que armazenara as proteinas extraídas.
         proteinas[LIMITE_DE_PROTEINAS],
-        // Vetor que armazenara a sequência de gênes.
-        sequencia_de_genes[LIMITE_DA_SEQUENCIA_DE_GENES];
-        
-    /**
-      * Pointeiros que referenciarão os arquivos
-      * contendo as proteínas e a sequência de gênes.
-      */
-    FILE
-        *ptr_prot,
-        *ptr_gene_seq;
+        // Matríz que armazenara as sequências de gênes encontradas.
+        sequencia_de_genes[NUMERO_DE_CODONS][LIMITE_DE_SEQUENCIA_DE_GENES];
 
     /**
-    * Aqui vamos ler o conteúdo de cada arquivo
-    * correspondente ao seu ponteiro.
-    */
-    ptr_prot     = fopen("dados/proteinas", "r");
-    ptr_gene_seq = fopen("dados/sequencia_de_genes", "r");
-
-    cread_file(ptr_prot, proteinas);
-    
-    /**
-     * Já lemos o arquivo, vamos fechá-lo
-     * para poupar memória.
-     *
-     * Dica: Esse é um dos motivos que faz
-     * a maioria fugir do C, garbage collector.
+     * Pointeiros que referenciarão os arquivos
+     * contendo as proteínas e a sequência de gênes.
      */
-    fclose(ptr_prot);
-    
-    // Reiniciando a contagem de carácteres.
-    //i = 0;
+    FILE *ptr_gene_seq;
 
     /**
-     * Até aqui já temos as nossas proteínas.
-     *
-     * Vamos agora pegar os nossos codóns.
+     * Aqui vamos ler o conteúdo de cada arquivo
+     * correspondente ao seu ponteiro.
      */
+    pegue_as_proteinas("dados/proteinas", proteinas, &num_prot);
 
-     /**
-     * Aqui lemos cada carácter da nossa sequencia
-     * de codóns.
-     *
-    while ((c = getc(ptr_gene_seq)) != EOF)
+    pegue_as_seq_de_genes("dados/sequencia_de_genes", sequencia_de_genes, num_prot);
+
+    for (int i = 0; i < NUMERO_DE_CODONS; i++)
     {
-        ptr_gene_seq[i] = c;
+        for (int l = 0; l < LIMITE_DE_SEQUENCIA_DE_GENES; l++)
+        {
+            printf("%c", sequencia_de_genes[i][l]);
+        }
 
-        i++;
+        if (i == num_prot)
+        {
+            break;
+        }
     }
-*/
-    fclose(ptr_gene_seq);
+    
+    printf("%c", num_prot);
+    
+    //printf("%s", sequencia_de_genes[0][2]);*/
     
     return 0;
 }
