@@ -20,21 +20,21 @@ int resolva_seq_gen(
      */
     int num_amin_acid_lidos,
     /**
-     * Recebe o número de tentativas já ocorridas
+     * Recebe o número de num_tentativas já ocorridas
      * de decifrar o código genético da proteína.
      */
-    int tentativas
+    int num_tentativas
 ) {
     /**
      * Representa a posição do código genético
      * que estamos a ler.
      */
     int
-        pos_cod_gen = 0,
+        pos_cod_gen = num_tentativas,
         con_while = 0;
     
 
-    for (int i = tentativas; i < (num_amin_acid_lidos + tentativas); i++)
+    for (int i = 0; i < num_amin_acid_lidos; i++)
     {   
         while (con_while != 3)
         {
@@ -46,6 +46,6 @@ int resolva_seq_gen(
 
         con_while = 0;
     }
-    
+
     return 0;
 }
