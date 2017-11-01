@@ -25,12 +25,26 @@ int resolva_seq_gen(
      */
     int tentativas
 ) {
+    /**
+     * Representa a posição do código genético
+     * que estamos a ler.
+     */
+    int
+        pos_cod_gen = 0,
+        con_while = 0;
+    
+
     for (int i = tentativas; i < (num_amin_acid_lidos + tentativas); i++)
-    {
-        for (int j = 0; j <= 2; j++)
+    {   
+        while (con_while != 3)
         {
-            amin_acids_achados[j][i] = seq_amin_acid[i];            
+            amin_acids_achados[i][con_while] = seq_amin_acid[pos_cod_gen];
+            
+            pos_cod_gen++;
+            con_while++;
         }
+
+        con_while = 0;
     }
     
     return 0;
