@@ -1,26 +1,32 @@
 /**
- * Representa é o número de combinações
- * de amino ácidos.
+ * O número de combinações de amino ácidos.
  *
  * Existem 4 tipos de amino ácidos, isso
- * significa que só existem 64 possíveis combinações
- * entre os mesmos. (4 x 4 x 4 = 64).
+ * significa que só existem 64 possíveis
+ * combinações entre os mesmos. (4 x 4 x 4 = 64).
+ 
+ * Para entender melhor veja a tabéla do código
+ * genético na pasta `ficheiros_auxiliares`.
  *
- * Para entender melhor veja a tabéla das combinações.
+ * Caso também fiquem confusos sobre a diferença
+ * entre codóns e amino ácidos, leiam:
+ *
+ * https://br.answers.yahoo.com/question/index?qid=20100315152331AAfeSuj
  */
 #define NUM_AMIN_ACID 64
 
 /**
- * Este é o limite de proteínas que o nosso
- * programa irá suportar.
+ * Limite máximo de amino ácidos
+ * na nossa proteína.
  */
-#define LIM_AMIN_ACID 1000
+#define MAX_AMIN_ACID_NA_PROT 1000
 
 /**
- * Este é o limite de códigos genéticos
- * que o nosso programa irá suportar.
- * 
- * Se nos for passado mais do que isso, o
- * resto não será lido.
+ * Limite de codóns.
  */
-#define LIM_SEQ_COD_GEN 10000
+#define MAX_CODON 3
+
+/**
+ * Limite de sequências genéticas.
+ */
+#define MAX_SEQ_GEN 10000
