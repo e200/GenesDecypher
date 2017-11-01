@@ -1,34 +1,74 @@
 /**
  * Este programa decifra o código
- * genético de amino ácidos.
- * 
+ * genético de um amino ácido em
+ * uma proteína.
+ *
+ * Para entender como ele funciona,
+ * é extremamente recomendável entender
+ * antes como o código genético funciona.
+ *
+ * Para facilitar a compreensão de
+ * quem venha a estudar esse código,
+ * preferi separar algumas coisas em
+ * arquivos.
+ *
+ * Mas ainda assim o código continua
+ * um monstro.
+ *
+ * So, be careful...
+ *
  * Data: 31/10/2017
  *
  * Autor: Eleandro Duzentos <eleandro@inbox.ru>
  * Repositório: https://github.com/e200/GenesDecypher/blob/master/
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Contém as constantes necessárias
+ * para criarmos os vetores do nosso
+ * decifrador.
+ */
 #include "definicoes.h"
-#include "leia_arquivo.h"
-#include "resolve_seq_gen.h"
+
+/**
+ * Contém a função que lê todos
+ * os bytes dos arquivos que contêm
+ * as amostras necessárias para
+ * decifrar o código genético de um
+ * amino ácido.
+ *
+ * Estas amostras são: o arquivo que
+ * contém o a proteína e o arquivo
+ * que contém a sequência genética.
+ */
+#include "leitor_de_amostras.h"
+
+/**
+ * Contém a função que regista cada
+ * códon ao seu respectivo amino ácido.
+ */
+#include "registrador_de_codons.h"
+
 /**
  * O parámetro `argc` indica o número
  * de parámetros passados via terminal.
  *
  * O parámetro `argv` contem os parámetros
  * passados via terminal.
+ *
+ * Vamos usá-los para pegar as nossas ficheiros (amostras).
  */
 int main(int argc, char *argv[])
 {
     int
         /**
-         * Número de amino ácidos lidos
-         * no arquivo contendo a proteína.
+         * Quantidade de amino ácidos
+         * encontrados na proteína.
          */
-        num_amin_acid_lidos,
+        qtd_amin_acidos = 0,
+
         /**
          * Número de tentativas de decifrar
          * o código genético da proteína dada.
@@ -37,7 +77,7 @@ int main(int argc, char *argv[])
         /**
          * Código genético decifrado?
          * 
-         * Informa ao programa quando
+         * Se 1, informa ao programa que
          * o código genético foi finalmente
          * decifrado.
          */
@@ -45,64 +85,147 @@ int main(int argc, char *argv[])
 
     char
         /**
-         * Vetor que armazenará as letras que
-         * representarão cada amino ácido.
+         * Este vetor armazenará as letras que
+         * representarão cada amino ácido
+         * encontrado pelo nosso programa
+         * na proteína.
          */
-        proteina[NUM_AMIN_ACID],
+        proteina[MAX_AMIN_ACID_NA_PROT],
+
         /**
-         * Vetor que armazenará a sequência
-         * de onde extraíremos os amino ácidos.
+         * Este vetor armazenará a sequência
+         * de amino ácidos extraídos da nossa
+         * amostra de amino ácidos.
          */
-        seq_amin_acid[LIM_SEQ_COD_GEN],
+        seq_amin_acidos[MAX_SEQ_GEN],
+
         /**
-         * Matríz (vetor 2d) que armazenará as
-         * sequências de amino ácidos achados a cada tentiva.
+         * Esta matríz (ou vetor 2d) armazenará
+         * as sequências de amino ácidos achados
+         * a cada tentativa.
+         *
+         * Que tentativa?
+         *
+         * Achar o código genético de um amino
+         * ácido consiste tentar, errar e tentar
+         * de novo até achar.
+         *
+         * Só com isso, se entenderes bem de lógica
+         * já sabes que vai chover **loops**.
          * 
          * As linhas representarão os amino ácidos.
          * As colunas representarão os códigos genéticos
-         * dos amino ácidos.
+         * que juntos formam os codóns.
          * 
          * Ex:
+         *
+         * Fique atento:
+         *
+         * Isto é uma proteína: MHISY.
+         *
+         * Cada letra dessa proteína representa um amino ácido.
+         *
+         * Cada amino ácido possui um códon.
+         *
+         * Cada codón possui 3 nucleotide.
+         *
+         * Um nucleotide é representado pelas letras {A, C, T, G}
+         *
+         * Perceba tudo isso nessa tabéla: 
          * 
-         *    |Col|Col|Col|Col|Col|
-         * Lin| M | H | I | S | Y |
-         * Lin|AGT|TTT|GGA|AAG|ATA|
+         *                col
+         *
+         *       | M | H | I | S | Y |          TODAS AS LETRAS FORMAM A PROTEÍNA.
+         * Lin   |AGT|TTT|GGA|AAG|ATA|          CADA LETRA TEM O SEU CODÓN.
          * 
          * Lembrando que cada amino ácido
          * só pode conter 3 letras no seu
          * código genético.
          */
-        amin_acids_achados[NUM_AMIN_ACID][LIM_SEQ_COD_GEN];  
-        ;  
+        registro_de_amin_acidos[MAX_AMIN_ACID_NA_PROT][MAX_CODON];
     
+    char *amostra_proteina = argv[0];
+    char *amostra_sequencia_genetica = argv[1];
+
     /**
-     * Pegando a proteina.
+     * Pegando a nossa amostra da proteina.
      * 
-     * O retorno é o número de amino ácidos
-     * que essa proteína deverá conter.
+     * O retorno da função `leia_amostra()`
+     * é o número de amino ácidos que a nossa
+     * proteína poderá conter.
+     *
+     * A nossa variável `proteína` será um
+     * ponteiro que receberá de dentro da função
+     * `leia_amostra()` a nossa proteina.
      */
-    num_amin_acid_lidos = leia_arquivo("dados/proteina", proteina);
+    qtd_amin_acidos = leia_amostra(amostra_proteina, proteina);
 
     /**
-     * Pegando a sequência genética.
+     * Pegando a nossa amostra da sequência genética.
+     *
+     * A nossa variável `seq_amin_acidos` será um
+     * ponteiro que receberá de dentro da função
+     * `leia_amostra()` a nossa sequência genética.
      */
-    leia_arquivo("dados/seq_amin_acid", seq_amin_acid);
+     leia_amostra(amostra_sequencia_genetica, seq_amin_acidos);
 
+    /**
+     * Até aqui já temos a nossa proteína e
+     * a nossa sequência genética, é tudo que
+     * que precisamos para fazer a nossa análize
+     * e daí decifrar o código genético do nosso
+     * amino ácido.
+     *
+     * Este `while` vai se executar até
+     * alguém o dizer: para, o código
+     * genético já foi encontrado.
+     */
     while (cod_gen_decifrado == 0)
     {
+        /**
+         * Esta variável nos ajudará a
+         * a cancelar os loops caso uma
+         * tentativa falhe.
+         *
+         * Aproveite e entenda, sempre
+         * que uma tentativa falhar,
+         * iremos cancelar alguns loops.
+         */
         int falhou = 0;
 
-        resolva_seq_gen(
-            amin_acids_achados,
-            seq_amin_acid,
-            num_amin_acid_lidos,
+        /**
+         * Vamos registrar os codóns disponíveis.
+         */
+        registre_os_codons(
+            registro_de_amin_acidos,
+            seq_amin_acidos,
+            qtd_amin_acidos,
             num_tentativas
         );
 
-        for (int i = 0; i < num_amin_acid_lidos; i++)
+        /**
+         * Ok, temos os nossos codóns registrados
+         * e associados aos seus amino ácidos na
+         * matríz `registro_de_amin_acidos`.
+         *
+         * Agora vamos ver dentro do nosso registro
+         * se há alguma sequência de codóns repetida,
+         * se sim, o teste tá negativo (falhou), se não,
+         * continuamos os nossos testes até testarmos
+         * não encontrarmos nenhuma sequência repetida.
+         *
+         * Se isso acontecer bro, deciframos o nosso código
+         * genético ou os amino ácidos da nossa proteína
+         * acabaram kkkkkkkkkkkkkkk.
+         *
+         * Ok, vamos comparar o amino ácido `registro_de_amin_acidos[i]`
+         * com os restantes, os restantes são todos os `registro_de_amin_acidos[j]`
+         * diferentes do `registro_de_amin_acidos[i]`.
+         */
+        for (int i = 0; i < qtd_amin_acidos; i++)
         {
             // Percorrendo cada sequência de um amino ácido.
-            for (int j = 0; j <= num_amin_acid_lidos; j++)
+            for (int j = 0; j <= qtd_amin_acidos; j++)
             {
                 /**
                  * Esta comparação previne que o mesmo
@@ -111,26 +234,36 @@ int main(int argc, char *argv[])
                  */
                 if (i != j)
                 {
+                    /**
+                     * Aqui verificamos se os codóns
+                     * dos amino ácidos a serem testados.
+                     * são iguais.
+                     *
+                     * Se sim, o teste falha.
+                     */
                     if (
-                        amin_acids_achados[i][0] == amin_acids_achados[j][0]
+                        registro_de_amin_acidos[i][0] == registro_de_amin_acidos[j][0]
                         &&
-                        amin_acids_achados[i][1] == amin_acids_achados[j][1]
+                        registro_de_amin_acidos[i][1] == registro_de_amin_acidos[j][1]
                         &&
-                        amin_acids_achados[i][2] == amin_acids_achados[j][2]
+                        registro_de_amin_acidos[i][2] == registro_de_amin_acidos[j][2]
                     ) {
-
                         falhou = 1;
                     }
                 }
 
-                // A tentativa falhou, cancele este loop.
+                /**
+                 * A tentativa falhou? cancele este loop.
+                 * Diga em que amino ácido falhou e qual
+                 * foi a combinação.
+                 */
                 if (falhou == 1)
                 {
                     num_tentativas++;
 
                     printf("%dª tentativa: ", num_tentativas);                        
                     printf("%c == %c: ", proteina[i], proteina[j]);
-                    printf("%s == %s\n", amin_acids_achados[i], amin_acids_achados[j]);
+                    printf("%s == %s\n", registro_de_amin_acidos[i], registro_de_amin_acidos[j]);
 
                     break;
                 }
@@ -143,66 +276,26 @@ int main(int argc, char *argv[])
             }
         }
 
+        /**
+         * Se os loops acima não acharam
+         * uma falha, e não ocorreu erro
+         * nenhum, então deciframos o código
+         * genético do nosso amino ácido.
+         *
+         * Ele está no registro. É só imprimí-lo.
+         */
         if (falhou == 0)
         {
-            printf("Código genético achado: ");
+            printf("Código genético decifrado: ");
 
-            for (int i = 0; i < num_amin_acid_lidos; i++)
+            for (int i = 0; i < qtd_amin_acidos; i++)
             {
-                printf("%s", amin_acids_achados[i]);
+                printf("%s", registro_de_amin_acidos[i]);
             }
 
             break;
         }
     }
-
-    /*while (cod_gen_decifrado != 1)
-    {
-        pegue_as_seq_de_genes(
-            "dados/seq_amin_acid",
-            seq_amin_acid,
-            num_amin_acid_lidos,
-            num_tentativas
-        ); 
-
-        // Percorrendo cada amino ácido.
-        for (int i = 0; i < num_amin_acid_lidos; i++)
-        {
-            // Percorrendo cada sequência de um amino ácido.
-            for (int j = 0; j <= num_amin_acid_lidos; j++)
-            {
-                if (i != j)
-                {
-                    if (
-                        seq_amin_acid[i][0] == seq_amin_acid[j][0]
-                        &&
-                        seq_amin_acid[i][1] == seq_amin_acid[j][1]
-                        &&
-                        seq_amin_acid[i][2] == seq_amin_acid[j][2]
-                    ) {
-                        num_tentativas++;
-
-                        printf("%dª tentativa: falhada\n\n", num_tentativas);
-
-                        printf("%c: %s\n", proteina[i], seq_amin_acid[i]);
-                        printf("%c: %s\n", proteina[j], seq_amin_acid[j]);
-                    }
-                }
-            }
-
-            /**
-             * Se já lemos todos amino ácidos convém parar,
-             * se não iremos ler lixo do buffer, e que não
-             * é nosso.
-             */
-            /*if (i == num_amin_acid_lidos)
-            {
-                cod_gen_decifrado = 1;
-                
-                break;
-            }
-        }
-    }*/
         
     return 0;
 }
