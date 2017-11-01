@@ -1,4 +1,7 @@
 /**
+ * Este programa decifra o código
+ * genético de amino ácidos.
+ * 
  * Data: 31/10/2017
  *
  * Autor: Eleandro Duzentos <eleandro@inbox.ru>
@@ -9,80 +12,102 @@
 #include <stdlib.h>
 
 /**
- * Este é o número de combinações para codóns
- * actualmente conhecido.
+ * Representa é o número de combinações
+ * de amino ácidos.
  *
- * Existem 4 tipos de codóns, isso significa
- * que só existem 64 possíveis combinações
+ * Existem 4 tipos de amino ácidos, isso
+ * significa que só existem 64 possíveis combinações
  * entre os mesmos. (4 x 4 x 4 = 64).
  *
- * Vejam a tabela de codóns para entenderem.
+ * Para entender melhor veja a tabéla das combinações.
  */
-#define NUMERO_DE_CODONS 64
+#define NUMERO_DE_AMINO_ACIDOS 64
 
 /**
- * Uma vez que não sabemos o número de proteinas,
- * vamos usar um vetor com 1000 índices, só para garantir.
+ * Este é o limite de proteínas que o nosso
+ * programa irá suportar.
  */
-#define LIMITE_DE_PROTEINAS 1000
+#define LIMITE_DE_AMINO_ACIDOS 1000
+
 /**
- * TODO: Add descrition.
+ * Este é o limite de códigos genéticos
+ * que o nosso programa irá suportar.
+ * 
+ * Se nos for passado mais do que isso, o
+ * resto não será lido.
  */
-#define LIMITE_DE_SEQUENCIA_DE_GENES 10000
+#define LIMITE_DE_CODIGOS_GENETICOS 10000
 
 /**
  * Armazena as proteínas.
  */
-int pegue_as_proteinas(char ficheiro_proteinas[], char *proteinas, int *n)
+int pegue_a_proteina(char ficheiro_proteina[], char *proteina, int *numero_proteina)
 {
-    int i = 0;
+    // Conterá o número de amino acidos
+    int contador = 0;
     
     /**
-    * Pointeiro para o ficheiro.
-    *
-    * O ficheiro é de onde as proteínas
-    * serão lidas.
-    */
+     * Pointeiro para o ficheiro.
+     *
+     * O ficheiro é de onde as proteínas
+     * serão extraídas.
+     */
     FILE *ptr_ficheiro;
 
     /**
-    * Uma vez que iremos pegar carácter
-    * por carácter, vamos armazenar cada
-    * carácter na variável `c`.
-    */
+     * Uma vez que iremos pegar carácter
+     * por carácter, vamos armazenar cada
+     * carácter na variável `c`, para
+     * para posterior processamento.
+     */
     char c;
 
     // Abrindo o arquivo.
-    ptr_ficheiro = fopen(ficheiro_proteinas, "r");
+    ptr_ficheiro = fopen(ficheiro_proteina, "r");
 
     /**
-    * Aqui lemos cada carácter e armazenamos
-    * no nosso vector `proteinas`.
-    */
+     * Aqui lemos cada carácter e armazenamos
+     * no nosso vector `proteinas`.
+     * 
+     * Cada carácter representará uma sequência
+     * de amino ácidos.
+     */
     while ((c = getc(ptr_ficheiro)) != EOF)
     {
-        proteinas[i] = c;
+        // Armazenando cada carácter.
+        proteina[contador] = c;
 
-        i++;
+        // Contando cada amino ácido.
+        contador++;
     }
 
-    *n = i;
+    /**
+     * Uma vez contados o número de amino ácidos
+     * vamos passá-lo ao ponteiro que representa
+     * variável fora da função que conterá o
+     * número de proteínas.
+     */
+    *numero_proteina = contador;
     
-    // Nunca se esqueça de limpar a memória.
+    // Nunca se esqueça: Limpar sempre a casa (memória).
     fclose(ptr_ficheiro);
 
+    /**
+     * Em C edde é o padrão para indicar que
+     * a função foi executada com sucesso.
+     */
     return 0;
 }
 
 /**
-* Pega a sequência dos genes
-* e associa a sua respectiva
-* proteína.
-*/
+ * Pega a sequência dos genes
+ * e associa a sua respectiva
+ * proteína.
+ */
 int pegue_as_seq_de_genes(
     char ficheiro_seq_genes[],
-    char sequencia_de_genes[][LIMITE_DE_SEQUENCIA_DE_GENES],
-    int num_prot
+    char sequencia_de_amino_acidos[][LIMITE_DE_CODIGOS_GENETICOS],
+    int numero_de_proteinas_extraidas
 ) {
     FILE *ptr_ficheiro;
 
@@ -97,24 +122,19 @@ int pegue_as_seq_de_genes(
 
     /**
     * Aqui lemos cada carácter e armazenamos
-    * no nosso vector `proteinas`.
+    * no nosso vector `proteina`.
     */
     while ((c = getc(ptr_ficheiro)) != EOF)
     {
         if (coluna != 2)
         {
-            sequencia_de_genes[linha][coluna] = c;
-            coluna++;
-        }
-        else
-        {
-            sequencia_de_genes[linha][coluna] = c;
+            sequencia_de_amino_acidos[linha][coluna] = c;
 
             linha++;
             coluna = 0;
         }
 
-        if (linha == num_prot)
+        if (linha == numero_de_proteinas_extraidas)
         {
             break;
         }
@@ -135,46 +155,57 @@ int pegue_as_seq_de_genes(
  */
 int main(int argc, char *argv[])
 {
-    int num_prot;
+    int numero_de_proteinas_extraidas;
 
     char
-        // Vetor que armazenará os codóns encontrados.
-        codons[NUMERO_DE_CODONS],
-        // Vetor que armazenara as proteinas extraídas.
-        proteinas[LIMITE_DE_PROTEINAS],
-        // Matríz que armazenara as sequências de gênes encontradas.
-        sequencia_de_genes[NUMERO_DE_CODONS][LIMITE_DE_SEQUENCIA_DE_GENES];
+        // Vetor que armazenara as proteínas extraídas.
+        proteina[NUMERO_DE_AMINO_ACIDOS],
+        /**
+         * Matríz (vetor 2d) que armazenará as sequências de amino ácidos.
+         * 
+         * As linhas representarão os amino ácidos.
+         * As colunas representarão os códigos genéticos dos amino ácidos.
+         * 
+         * Ex:
+         * 
+         *  M   H   I   S   Y
+         * AGT TTT GGA AAG ATA
+         * 
+         * Onde cada letra representa um amino ácido
+         * e cada amino ácido representa um sequência genética.
+         */
+        sequencia_de_amino_acidos[NUMERO_DE_AMINO_ACIDOS][LIMITE_DE_CODIGOS_GENETICOS];
 
-    /**
-     * Pointeiros que referenciarão os arquivos
-     * contendo as proteínas e a sequência de gênes.
-     */
-    FILE *ptr_gene_seq;
+    // Pegando a proteina.
+    pegue_a_proteina("dados/proteina", proteina, &numero_de_proteinas_extraidas);
 
-    /**
-     * Aqui vamos ler o conteúdo de cada arquivo
-     * correspondente ao seu ponteiro.
-     */
-    pegue_as_proteinas("dados/proteinas", proteinas, &num_prot);
+    pegue_as_seq_de_genes(
+        "dados/sequencia_de_amino_acidos",
+        sequencia_de_amino_acidos,
+        numero_de_proteinas_extraidas
+    );
 
-    pegue_as_seq_de_genes("dados/sequencia_de_genes", sequencia_de_genes, num_prot);
-
-    for (int i = 0; i < NUMERO_DE_CODONS; i++)
+    // Percorrendo cada amino ácido.
+    for (int i = 0; i < NUMERO_DE_AMINO_ACIDOS; i++)
     {
-        for (int l = 0; l < LIMITE_DE_SEQUENCIA_DE_GENES; l++)
+        // Percorrendo cada sequência de um amino ácido.
+        for (int l = 0; l < LIMITE_DE_CODIGOS_GENETICOS; l++)
         {
-            printf("%c", sequencia_de_genes[i][l]);
+            printf("%c", sequencia_de_amino_acidos[i][l]);
         }
 
-        if (i == num_prot)
+        /**
+         * Se já lemos todos amino ácidos convém para,
+         * se não iremos ler lixo do buffer, e que não
+         * é nosso.
+         */
+        if (i == numero_de_proteinas_extraidas)
         {
             break;
         }
     }
     
-    printf("%c", num_prot);
-    
-    //printf("%s", sequencia_de_genes[0][2]);*/
-    
+    printf("%c", numero_de_proteinas_extraidas);
+        
     return 0;
 }
