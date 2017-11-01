@@ -10,7 +10,7 @@ int registre_os_codons(
      * Onde a sequência de amino ácidos será
      * armazenada.
      */
-    char amin_acids_achados[][MAX_CODON],
+    char registro_de_amin_acidos[][MAX_CODON],
     /**
      * Recebe a sequência de amino ácidos
      */
@@ -18,7 +18,7 @@ int registre_os_codons(
     /**
      * Aqui recebe o número de amino ácidos lidos.
      */
-    int num_amin_acid_lidos,
+    int qtd_amin_acidos,
     /**
      * Recebe o número de num_tentativas já ocorridas
      * de decifrar o código genético da proteína.
@@ -30,16 +30,16 @@ int registre_os_codons(
      * que estamos a ler.
      */
     int
-        pos_cod_gen = num_tentativas,
+        byte = num_tentativas,
         con_while = 0;
 
-    for (int i = 0; i < num_amin_acid_lidos; i++)
-    {   
-        while (con_while != MAX_CODON)
-        {
-            amin_acids_achados[i][con_while] = seq_amin_acid[pos_cod_gen];
-            
-            pos_cod_gen++;
+    for (int i = 0; i < qtd_amin_acidos; i++)
+    {
+        while (con_while != 3)
+        {            
+            registro_de_amin_acidos[i][con_while] = seq_amin_acid[byte];
+
+            byte++;
             con_while++;
         }
 
