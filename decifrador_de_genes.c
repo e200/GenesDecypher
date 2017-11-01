@@ -107,15 +107,17 @@ int pegue_a_proteina(char ficheiro_proteina[], char *proteina, int *numero_prote
 int pegue_as_seq_de_genes(
     char ficheiro_seq_genes[],
     char sequencia_de_amino_acidos[][LIMITE_DE_CODIGOS_GENETICOS],
-    int numero_de_proteinas_extraidas
+    int numero_de_proteinas_extraidas,
+    int tentativas
 ) {
     FILE *ptr_ficheiro;
 
-    char c, sequencia[2];
+    char c;
 
     int
         linha = 0,
-        coluna = 0;
+        coluna = 0,
+        contador = 0;
 
     // Abrindo o arquivo.
     ptr_ficheiro = fopen(ficheiro_seq_genes, "r");
@@ -126,18 +128,29 @@ int pegue_as_seq_de_genes(
     */
     while ((c = getc(ptr_ficheiro)) != EOF)
     {
-        if (coluna != 2)
+        if (contador > tentativas)
         {
-            sequencia_de_amino_acidos[linha][coluna] = c;
-
-            linha++;
-            coluna = 0;
+            if (coluna != 2)
+            {
+                sequencia_de_amino_acidos[linha][coluna] = c;
+    
+                coluna++;
+            }
+            else
+            {
+                sequencia_de_amino_acidos[linha][coluna] = c;
+                
+                linha++;
+                coluna = 0;
+            }
+    
+            if (linha == numero_de_proteinas_extraidas)
+            {
+                break;
+            }
         }
 
-        if (linha == numero_de_proteinas_extraidas)
-        {
-            break;
-        }
+        contador++;
     }
 
     // Nunca se esqueçam de limpar a memória.
@@ -155,7 +168,10 @@ int pegue_as_seq_de_genes(
  */
 int main(int argc, char *argv[])
 {
-    int numero_de_proteinas_extraidas;
+    int
+        numero_de_proteinas_extraidas,
+        tentivas = 0,
+        codigo_genetico_ainda_nao_decifrado = 0;
 
     char
         // Vetor que armazenara as proteínas extraídas.
@@ -174,38 +190,58 @@ int main(int argc, char *argv[])
          * Onde cada letra representa um amino ácido
          * e cada amino ácido representa um sequência genética.
          */
-        sequencia_de_amino_acidos[NUMERO_DE_AMINO_ACIDOS][LIMITE_DE_CODIGOS_GENETICOS];
-
+        sequencia_de_amino_acidos[NUMERO_DE_AMINO_ACIDOS][LIMITE_DE_CODIGOS_GENETICOS];  
+    
     // Pegando a proteina.
     pegue_a_proteina("dados/proteina", proteina, &numero_de_proteinas_extraidas);
 
-    pegue_as_seq_de_genes(
-        "dados/sequencia_de_amino_acidos",
-        sequencia_de_amino_acidos,
-        numero_de_proteinas_extraidas
-    );
-
-    // Percorrendo cada amino ácido.
-    for (int i = 0; i < NUMERO_DE_AMINO_ACIDOS; i++)
+    while (codigo_genetico_ainda_nao_decifrado != 1)
     {
-        // Percorrendo cada sequência de um amino ácido.
-        for (int l = 0; l < LIMITE_DE_CODIGOS_GENETICOS; l++)
-        {
-            printf("%c", sequencia_de_amino_acidos[i][l]);
-        }
+        pegue_as_seq_de_genes(
+            "dados/sequencia_de_amino_acidos",
+            sequencia_de_amino_acidos,
+            numero_de_proteinas_extraidas,
+            tentivas
+        ); 
 
-        /**
-         * Se já lemos todos amino ácidos convém para,
-         * se não iremos ler lixo do buffer, e que não
-         * é nosso.
-         */
-        if (i == numero_de_proteinas_extraidas)
+        // Percorrendo cada amino ácido.
+        for (int i = 0; i < numero_de_proteinas_extraidas; i++)
         {
-            break;
+            // Percorrendo cada sequência de um amino ácido.
+            for (int j = 0; j <= numero_de_proteinas_extraidas; j++)
+            {
+                if (i != j)
+                {
+                    if (
+                        sequencia_de_amino_acidos[i][0] == sequencia_de_amino_acidos[j][0]
+                        &&
+                        sequencia_de_amino_acidos[i][1] == sequencia_de_amino_acidos[j][1]
+                        &&
+                        sequencia_de_amino_acidos[i][2] == sequencia_de_amino_acidos[j][2]
+                    ) {
+                        tentivas++;
+
+                        printf("%dª tentativa: falhada\n\n", tentivas);
+
+                        printf("%c: %s\n", proteina[i], sequencia_de_amino_acidos[i]);
+                        printf("%c: %s\n", proteina[j], sequencia_de_amino_acidos[j]);
+                    }
+                }
+            }
+
+            /**
+             * Se já lemos todos amino ácidos convém parar,
+             * se não iremos ler lixo do buffer, e que não
+             * é nosso.
+             */
+            if (i == numero_de_proteinas_extraidas)
+            {
+                codigo_genetico_ainda_nao_decifrado = 1;
+                
+                break;
+            }
         }
     }
-    
-    printf("%c", numero_de_proteinas_extraidas);
         
     return 0;
 }
