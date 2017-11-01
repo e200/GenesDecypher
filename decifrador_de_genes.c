@@ -96,8 +96,8 @@ int main(int argc, char *argv[])
             num_amin_acid_lidos,
             num_tentivas
         );
-        printf("%s", amin_acids_achados[2]);
-        /*for (int i = 0; i < num_amin_acid_lidos; i++)
+
+        for (int i = 0; i < num_amin_acid_lidos; i++)
         {
             // Percorrendo cada sequência de um amino ácido.
             for (int j = 0; j <= num_amin_acid_lidos; j++)
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
                     }
                 }
             }
-        }*/
+        }
 
         cod_gen_decifrado = 1;
     }
