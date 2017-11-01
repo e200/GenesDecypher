@@ -24,7 +24,7 @@
 /**
  * Limite de codóns.
  */
-#define MAX_CODON 2
+#define MAX_CODON 4
 
 /**
  * Limite de sequências genéticas.
