@@ -144,8 +144,13 @@ int main(int argc, char *argv[])
          */
         registro_de_amin_acidos[MAX_AMIN_ACID_NA_PROT][MAX_CODON];
     
-    char *amostra_proteina = argv[0];
-    char *amostra_sequencia_genetica = argv[1];
+    /**
+     * Pegando os ponteiros para o caminho
+     * das amostras.
+     */
+    char
+        *amostra_proteina = argv[1],
+        *amostra_sequencia_genetica = argv[2];
 
     /**
      * Pegando a nossa amostra da proteina.
@@ -236,7 +241,7 @@ int main(int argc, char *argv[])
                 {
                     /**
                      * Aqui verificamos se os codóns
-                     * dos amino ácidos a serem testados.
+                     * dos amino ácidos a serem testados
                      * são iguais.
                      *
                      * Se sim, o teste falha.
