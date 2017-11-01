@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
          * Número de tentativas de decifrar
          * o código genético da proteína dada.
          */
-        num_tentivas = 0,
+        num_tentativas = 0,
         /**
          * Código genético decifrado?
          * 
@@ -90,11 +90,13 @@ int main(int argc, char *argv[])
 
     while (cod_gen_decifrado == 0)
     {
+        int falhou = 0;
+
         resolva_seq_gen(
             amin_acids_achados,
             seq_amin_acid,
             num_amin_acid_lidos,
-            num_tentivas
+            num_tentativas
         );
 
         for (int i = 0; i < num_amin_acid_lidos; i++)
@@ -102,6 +104,11 @@ int main(int argc, char *argv[])
             // Percorrendo cada sequência de um amino ácido.
             for (int j = 0; j <= num_amin_acid_lidos; j++)
             {
+                /**
+                 * Esta comparação previne que o mesmo
+                 * amino ácido seja comparado consigo
+                 * mesmo.
+                 */
                 if (i != j)
                 {
                     if (
@@ -111,18 +118,42 @@ int main(int argc, char *argv[])
                         &&
                         amin_acids_achados[i][2] == amin_acids_achados[j][2]
                     ) {
-                        num_tentivas++;
 
-                        printf("%dª tentativa: falhada\n\n", num_tentivas);
-
-                        printf("%c: %s\n", proteina[i], amin_acids_achados[i]);
-                        printf("%c: %s\n", proteina[j], amin_acids_achados[j]);
+                        falhou = 1;
                     }
                 }
+
+                // A tentativa falhou, cancele este loop.
+                if (falhou == 1)
+                {
+                    num_tentativas++;
+
+                    printf("%dª tentativa: ", num_tentativas);                        
+                    printf("%c == %c: ", proteina[i], proteina[j]);
+                    printf("%s == %s\n", amin_acids_achados[i], amin_acids_achados[j]);
+
+                    break;
+                }
+            }
+
+            // A tentativa falhou, cancele este loop.
+            if (falhou == 1)
+            {
+                break;
             }
         }
 
-        cod_gen_decifrado = 1;
+        if (falhou == 0)
+        {
+            printf("Código genético achado: ");
+
+            for (int i = 0; i < num_amin_acid_lidos; i++)
+            {
+                printf("%s", amin_acids_achados[i]);
+            }
+
+            break;
+        }
     }
 
     /*while (cod_gen_decifrado != 1)
@@ -131,7 +162,7 @@ int main(int argc, char *argv[])
             "dados/seq_amin_acid",
             seq_amin_acid,
             num_amin_acid_lidos,
-            num_tentivas
+            num_tentativas
         ); 
 
         // Percorrendo cada amino ácido.
@@ -149,9 +180,9 @@ int main(int argc, char *argv[])
                         &&
                         seq_amin_acid[i][2] == seq_amin_acid[j][2]
                     ) {
-                        num_tentivas++;
+                        num_tentativas++;
 
-                        printf("%dª tentativa: falhada\n\n", num_tentivas);
+                        printf("%dª tentativa: falhada\n\n", num_tentativas);
 
                         printf("%c: %s\n", proteina[i], seq_amin_acid[i]);
                         printf("%c: %s\n", proteina[j], seq_amin_acid[j]);
