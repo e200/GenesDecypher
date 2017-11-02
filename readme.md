@@ -1,6 +1,6 @@
 # GeneDecypher
 
-GeneDecypher é um decifrador de código genético para amino ácidos, escrito em C, feito para um cliente estudante da Universidade Metodista de Angola.
+GeneDecypher é um decifrador de código genético para amino ácidos, escrito em **C**, feito para um cliente estudante da Universidade Metodista de Angola.
 
 ## Como funciona o decifrador?
 
