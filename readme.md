@@ -70,4 +70,4 @@ attgctagcaatgctagcaattgctagcaattcat
 
 Neste caso não temos proteínas com codóns iguais? Todos codóns são diferentes. Isso significa que `atgctagcaattgctagcaat` é o nosso código genético decifrado.
 
-Difícil e chato né??? Mas é o processo de decifrar um código genético e é o mesmo processo de biologia computacional que o GeneDecypher faz.
+Difícil e chato né??? Mas é o processo de decifrar um código genético e é o mesmo processo de **biologia computacional** que o **GeneDecypher** executa.
