@@ -6,7 +6,9 @@ GeneDecypher é um decifrador de código genético para amino ácidos, escrito e
 
 ### Compilação e instalação
 
-```make install```
+```
+make install
+```
 
 ### Compilação e instalação no Ubuntu
 
@@ -16,7 +18,9 @@ sudo apt-get install libc6-dev -y && make install
 
 ### Remoção
 
-```make remove```
+```
+make remove
+```
 
 ### Execução
 
