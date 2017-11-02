@@ -36,7 +36,7 @@ int registre_os_codons(
     for (int i = 0; i < qtd_amin_acidos; i++)
     {
         while (con_while != 3)
-        {            
+        {
             registro_de_amin_acidos[i][con_while] = seq_amin_acid[byte];
 
             byte++;
