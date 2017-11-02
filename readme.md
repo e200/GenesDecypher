@@ -44,23 +44,31 @@ Essa é a nossa sequência genética:
 
 Para decifrar uma sequência genética, não podemos ter dois amino ácidos com codóns iguais:
 
-    attgctagcaatgctagcaattgctagcaattcat
-    M  S  I  Q  H  M  R.
+```
+attgctagcaatgctagcaattgctagcaattcat
+M  S  I  Q  H  M  R.
+```
 
 Observe que neste caso **S** e **H** são iguais (têm os mesmos codóns), então tentamos novamente avançando uma letra:
 
-    attgctagcaatgctagcaattgctagcaattcat
-     M  S  I  Q  H  M  R.
+```
+attgctagcaatgctagcaattgctagcaattcat
+ M  S  I  Q  H  M  R.
+```
 
 Observe que neste caso **S** e **H** são iguais, então tentamos novamente avançando mais uma letra:
 
-    attgctagcaatgctagcaattgctagcaattcat
-      M  S  I  Q  H  M  R.
+```
+attgctagcaatgctagcaattgctagcaattcat
+  M  S  I  Q  H  M  R.
+```
 
 Observe que neste caso **MS** e **QH** são iguais, então, fazendo o mesmo processo várias e várias vezes chengamos a esta sequência:
 
-    attgctagcaatgctagcaattgctagcaattcat
-              M  S  I  Q  H  M  R.
+```
+attgctagcaatgctagcaattgctagcaattcat
+          M  S  I  Q  H  M  R.
+```
 
 Neste caso não temos proteínas com codóns igual? Todos codóns são diferentes. Isso significa que `atgctagcaattgctagcaat` é o nosso código genético decifrado.
 
