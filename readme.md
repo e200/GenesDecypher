@@ -8,15 +8,13 @@ Primeiro compile o arquivo `decifrador_de_genes.c` e execute o arquivo compilado
 
 `./arquivo_compilado dados/proteina dados/sequencia_genetica`.
 
-Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/proteina` e dados/sequencia_genetica`) e recolherá as amostras contidas neles.
+Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/proteina` e `dados/sequencia_genetica`) e recolherá as amostras contidas neles.
 
 Estas amostras serão analisadas internamente até não ser mais possível analisá-las ou o código genético ter cido decifrado.
 
 ## Como descobrir um código genético de um amino ácido?
 
-Considere a seguinte proteína:
-
-`M  S  I  Q  H  M  R`.
+Considere a seguinte proteína: `M  S  I  Q  H  M  R`.
 
 Cada letra dessa proteína representa um amino ácido.
 
@@ -70,6 +68,6 @@ attgctagcaatgctagcaattgctagcaattcat
           M  S  I  Q  H  M  R.
 ```
 
-Neste caso não temos proteínas com codóns igual? Todos codóns são diferentes. Isso significa que `atgctagcaattgctagcaat` é o nosso código genético decifrado.
+Neste caso não temos proteínas com codóns iguais? Todos codóns são diferentes. Isso significa que `atgctagcaattgctagcaat` é o nosso código genético decifrado.
 
-Difícil e chato né??? Mas é isso.
+Difícil e chato né??? Mas é o processo de decifrar um código genético e é o mesmo processo de biologia computacional que o GeneDecypher faz.
