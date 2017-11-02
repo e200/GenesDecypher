@@ -47,21 +47,21 @@ attgctagcaatgctagcaattgctagcaattcat
 M  S  I  Q  H  M  R.
 ```
 
-Observe que neste caso **S** e **H** são iguais (têm os mesmos codóns), então tentamos novamente avançando uma letra:
+Observe que no caso acima **S** e **H** são iguais (têm os mesmos codóns), então tentamos novamente avançando uma letra:
 
 ```
 attgctagcaatgctagcaattgctagcaattcat
  M  S  I  Q  H  M  R.
 ```
 
-Observe que neste caso **S** e **H** são iguais, então tentamos novamente avançando mais uma letra:
+Observe que no caso acima **S** e **H** são iguais, então tentamos novamente avançando mais uma letra:
 
 ```
 attgctagcaatgctagcaattgctagcaattcat
   M  S  I  Q  H  M  R.
 ```
 
-Observe que neste caso **MS** e **QH** são iguais, então, fazendo o mesmo processo várias e várias vezes chengamos a esta sequência:
+Observe que no caso acima **MS** e **QH** são iguais, então, fazendo o mesmo processo várias e várias vezes chengamos a esta sequência:
 
 ```
 attgctagcaatgctagcaattgctagcaattcat
