@@ -26,7 +26,9 @@ make remove
 
 Execute o arquivo compilado assim:
 
-`decifrador_de_genes dados/proteina dados/sequencia_genetica`.
+```bash
+decifrador_de_genes dados/proteina dados/sequencia_genetica
+```
 
 Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/proteina` e `dados/sequencia_genetica`) e recolherá as amostras contidas neles.
 
