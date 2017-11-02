@@ -4,9 +4,25 @@ GeneDecypher é um decifrador de código genético para amino ácidos, escrito e
 
 ## Como funciona o decifrador?
 
-Primeiro compile o arquivo `decifrador_de_genes.c` e execute o arquivo compilado assim:
+### Compilação e instalação
 
-`./arquivo_compilado dados/proteina dados/sequencia_genetica`.
+```make install```
+
+### Compilação e instalação no Ubuntu
+
+```
+sudo apt-get install libc6-dev -y && make install
+```
+
+### Remoção
+
+```make remove```
+
+### Execução
+
+Execute o arquivo compilado assim:
+
+`decifrador_de_genes dados/proteina dados/sequencia_genetica`.
 
 Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/proteina` e `dados/sequencia_genetica`) e recolherá as amostras contidas neles.
 
