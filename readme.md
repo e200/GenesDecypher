@@ -47,7 +47,7 @@ Para decifrar uma sequência genética, não podemos ter dois amino ácidos com 
     attgctagcaatgctagcaattgctagcaattcat
     M  S  I  Q  H  M  R.
 
-Observe que neste caso **M** e **Q** são iguais (têm os mesmos codóns), então tentamos novamente avançando uma letra:
+Observe que neste caso **S** e **H** são iguais (têm os mesmos codóns), então tentamos novamente avançando uma letra:
 
     attgctagcaatgctagcaattgctagcaattcat
      M  S  I  Q  H  M  R.
@@ -57,26 +57,11 @@ Observe que neste caso **S** e **H** são iguais, então tentamos novamente avan
     attgctagcaatgctagcaattgctagcaattcat
       M  S  I  Q  H  M  R.
 
-Observe que neste caso **M** e **Q** são iguais, então tentamos novamente avançando mais uma letra:
+Observe que neste caso **MS** e **QH** são iguais, então, fazendo o mesmo processo várias e várias vezes chengamos a esta sequência:
 
     attgctagcaatgctagcaattgctagcaattcat
-       M  S  I  Q  H  M  R.
+              M  S  I  Q  H  M  R.
 
-Observe que neste caso **S** e **H** são iguais, então tentamos novamente avançando mais uma letra:
-
-attgctagcaatgctagcaattgctagcaattcat
-        M  S  I  Q  H  M  R.
-
-Observe que neste caso **M** e **Q** são iguais, então tentamos novamente avançando mais uma letra:
-
-attgctagcaatgctagcaattgctagcaattcat
-        M  S  I  Q  H  M  R.
-
-Observe que neste caso **M** e **Q** são iguais novamente, então tentamos novamente avançando mais uma letra:
-
-attgctagcaatgctagcaattgctagcaattcat
-         M  S  I  Q  H  M  R.
-
-Notou que neste caso não temos nenhuma proteína com codón igual? Todos codóns são diferentes. Isso significa que `aatgctagcaattgctagcaa` é o nosso código genético decifrado.
+Neste caso não temos proteínas com codóns igual? Todos codóns são diferentes. Isso significa que `atgctagcaattgctagcaat` é o nosso código genético decifrado.
 
 Difícil e chato né??? Mas é isso.
