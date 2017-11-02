@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         num_tentativas = 0,
         /**
          * Código genético decifrado?
-         * 
+         *
          * Se 1, informa ao programa que
          * o código genético foi finalmente
          * decifrado.
@@ -112,11 +112,11 @@ int main(int argc, char *argv[])
          *
          * Só com isso, se entenderes bem de lógica
          * já sabes que vai chover **loops**.
-         * 
+         *
          * As linhas representarão os amino ácidos.
          * As colunas representarão os códigos genéticos
          * que juntos formam os codóns.
-         * 
+         *
          * Ex:
          *
          * Fique atento:
@@ -131,19 +131,19 @@ int main(int argc, char *argv[])
          *
          * Um nucleotide é representado pelas letras {A, C, T, G}
          *
-         * Perceba tudo isso nessa tabéla: 
-         * 
+         * Perceba tudo isso nessa tabéla:
+         *
          *                col
          *
          *       | M | H | I | S | Y |          TODAS AS LETRAS FORMAM A PROTEÍNA.
          * Lin   |AGT|TTT|GGA|AAG|ATA|          CADA LETRA TEM O SEU CODÓN.
-         * 
+         *
          * Lembrando que cada amino ácido
          * só pode conter 3 letras no seu
          * código genético.
          */
         registro_de_amin_acidos[MAX_AMIN_ACID_NA_PROT][MAX_CODON];
-    
+
     /**
      * Pegando os ponteiros para o caminho
      * das amostras.
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 
     /**
      * Pegando a nossa amostra da proteina.
-     * 
+     *
      * O retorno da função `leia_amostra()`
      * é o número de amino ácidos que a nossa
      * proteína poderá conter.
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
                 {
                     num_tentativas++;
 
-                    printf("%dª tentativa: ", num_tentativas);                        
+                    printf("%dª tentativa: ", num_tentativas);
                     printf("%c == %c: ", proteina[i], proteina[j]);
                     printf("%s == %s\n", registro_de_amin_acidos[i], registro_de_amin_acidos[j]);
 
@@ -298,9 +298,11 @@ int main(int argc, char *argv[])
                 printf("%s", registro_de_amin_acidos[i]);
             }
 
+            printf("\n");
+
             break;
         }
     }
-        
+
     return 0;
 }
