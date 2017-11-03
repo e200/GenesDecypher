@@ -64,6 +64,13 @@ int main(int argc, char *argv[])
 {
     int
         /**
+         * Informa quando uma tentativa
+         * dentro do loop de tentativas
+         * falhou ou não.
+         */
+        falhou,
+
+        /**
          * Quantidade de amino ácidos
          * encontrados na proteína.
          */
@@ -200,15 +207,15 @@ int main(int argc, char *argv[])
     while ((cod_gen_decifrado == 0) && (num_tentativas < (qtd_nucleotides - qtd_amin_acidos)))
     {
         /**
-         * Esta variável nos ajudará a
-         * a cancelar os loops caso uma
-         * tentativa falhe.
+         * Nova tentativa, ainda não sabemos
+         * se ela falhará ou não, então
+         * reiniciamos está variável.
          *
-         * Aproveite e entenda, sempre
-         * que uma tentativa falhar,
-         * iremos cancelar alguns loops.
+         * Caso está tentativa falhe, algures
+         * alguém vai setar está variável com
+         * o valor "1".
          */
-        int falhou = 0;
+        falhou = 0;
 
         /**
          * Vamos registrar os codóns disponíveis.
@@ -316,7 +323,10 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("\nNão foi possível decifrar o código genético da proteína:\n\n%s\n na sequência genética dada.\n\n", proteina);
-        
+    if (falhou == 1)
+    {
+        printf("\nNão foi possível decifrar o código genético da proteína:\n\n%s\n\n na sequência genética dada.\n\n", proteina);            
+    }
+
     return 0;
 }
