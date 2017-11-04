@@ -12,10 +12,6 @@ Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/p
 
 Estas amostras serão analisadas internamente até não ser mais possível analisá-las ou o código genético ter cido decifrado.
 
-Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/prot.1` e `dados/gene.1`) e recolherá as amostras contidas neles. O primeiro arquivo deve ser sempre a proteína e o segundo a sequência genética.
-
-Estas amostras serão analisadas internamente até não ser mais possível analisá-las ou o código genético ter cido decifrado.
-
 ## Como descobrir um código genético de um amino ácido?
 
 Considere a seguinte proteína: `MSIQHMR`.
