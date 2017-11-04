@@ -27,7 +27,7 @@ sudo make remove
 Execute o arquivo compilado assim:
 
 ```bash
-decifrador_de_genes dados/prot.1 dados/gene.1
+decypher dados/prot.1 dados/gene.1
 ```
 
 Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/prot.1` e `dados/gene.1`) e recolherá as amostras contidas neles. O primeiro arquivo deve ser sempre a proteína e o segundo a sequência genética.
