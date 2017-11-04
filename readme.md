@@ -20,9 +20,9 @@ Cada letra dessa proteína representa um amino ácido.
 
 Cada amino ácido possui um códon.
 
-Cada codón só pode conter 3 nucleotides.
+Cada codón só pode conter 3 nucleótides.
 
-Um nucleotide é representado pelas letras {A, C, T, G}.
+Um nucleótide é representado pelas letras {A, C, T, G}.
 
 Perceba tudo isso nessa tabéla:
 
@@ -31,7 +31,7 @@ Perceba tudo isso nessa tabéla:
           | M | S | I | Q | H | M | R |          TODAS AS LETRAS FORMAM A PROTEÍNA.
     Lin   |att|gct|agc|aat|gct|agc|aat|          CADA LETRA TEM O SEU CODÓN.
 
-Lembrando que cada amino ácido só pode conter 3 letras (nucleotides) no seu código genético.
+Lembrando que cada amino ácido só pode conter 3 letras (nucleótides) no seu código genético.
 
 Vamos então decifrar o código genético dos nossos amino ácidos `MSIQHMR`.
 
@@ -40,7 +40,7 @@ Essa é a nossa sequência genética: `attgctagcaatgctagcaattgctagcaattcat`.
 Processos:
 
 * 1º Verificar se temos dois ou mais amino ácidos com codóns iguais.
-* 2º Caso o **1º processo** dê positivo, avançamos um nucleotide na sequência genética.
+* 2º Caso o **1º processo** dê positivo, avançamos um nucleótide na sequência genética.
 * 3º Repetimos os processos **1 e 2** até não termos amino ácidos com codóns iguais ou a sequência genética acabar.
 
 Na prática:
