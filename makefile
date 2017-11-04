@@ -1,14 +1,14 @@
 C	= gcc
 
 default:
-	$(C) decifrador_de_genes.c -o decifrador_de_genes
+	$(C) decypher.c -o decypher
 
 install: default
-	sudo mv decifrador_de_genes /usr/bin/decifrador_de_genes
+	sudo mv decypher /usr/bin/decypher
 	clear
 	@echo "Decifrador de Genes instalado com sucesso."
 
 remove:
-	sudo rm /usr/bin/decifrador_de_genes
+	sudo rm /usr/bin/decypher
 	clear
 	@echo "Decifrador de Genes removido com sucesso."
