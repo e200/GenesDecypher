@@ -15,10 +15,15 @@
 
 /**
  * Lê todos os bytes de um ficheiro
- * e armazena à saída.
+ * e armazena à `saida`.
  * 
- * O valor de retorno desta função
- * é o número de bytes lidos.
+ * `nome_do_arquivo`, nome do arquivo a ser lido.
+ * 
+ * `saida`, ponteiro onde será atribuído o os
+ * bytes lídos.
+ * 
+ * `num_bytes`, ponteiro onde será atribuído o
+ * número de bytes lídos.
  */
 void leia_amostra(char nome_arquivo[], char *saida, int *num_bytes)
 {
@@ -49,5 +54,6 @@ void leia_amostra(char nome_arquivo[], char *saida, int *num_bytes)
     // Sempre limpe a casa (memória).
     fclose(ptr_ficheiro);
 
-    num_bytes = i;
+    // Atribuindo o número de bytes lidos.
+    *num_bytes = i;
 }
