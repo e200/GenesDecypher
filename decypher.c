@@ -52,6 +52,12 @@
 #include "lib/registrador_de_codons.h"
 
 /**
+ * Informa se ainda da pra tentar
+ * decifrar os nossos amino ácidos.
+ */
+#include "lib/da_pra_tentar.h"
+
+/**
  * O parámetro `argc` indica o número
  * de parámetros passados via terminal.
  *
@@ -181,25 +187,23 @@ int main(int argc, char *argv[])
     /**
      * Pegando a nossa amostra da proteina.
      * 
-     * Leia a descrição de como essa função
-     * funciona no arquivo onde ela está.
+     * Veja o arquivo: lib/leitor_de_amostras.h
      */
     leia_amostra(
         amostra_proteina,
         proteina,
-        qtd_amin_acidos
+        &qtd_amin_acidos
     );
 
     /**
      * Pegando a nossa amostra da sequência genética.
      * 
-     * Leia a descrição de como essa função
-     * funciona no arquivo onde ela está.
+     * Veja o arquivo: lib/leitor_de_amostras.h
      */
      leia_amostra(
          amostra_sequencia_genetica,
          seq_amin_acidos,
-         qtd_nucleotides
+         &qtd_nucleotides
         );
 
     /**
@@ -215,7 +219,12 @@ int main(int argc, char *argv[])
      * o não haver mais tentativas
      * possíveis.
      */
-    while ((cod_gen_decifrado == 0) && (num_tentativas < (qtd_nucleotides - qtd_amin_acidos)))
+    while (da_pra_tentar(
+        cod_gen_decifrado,
+        num_tentativas,
+        qtd_nucleotides,
+        qtd_amin_acidos
+    ))
     {
         /**
          * Nova tentativa, ainda não sabemos
@@ -244,12 +253,12 @@ int main(int argc, char *argv[])
          * matríz `registro_de_amin_acidos`.
          *
          * Agora vamos ver dentro do nosso registro
-         * se há alguma sequência de codóns repetida,
+         * se há alguma sequência de codóns repetidas,
          * se sim, o teste tá negativo (falhou), se não,
-         * continuamos os nossos testes até testarmos
-         * não encontrarmos nenhuma sequência repetida.
+         * continuamos os nossos testes até não encontrarmos
+         * nenhuma sequência repetida.
          *
-         * Se isso acontecer bro, deciframos o nosso código
+         * Se isso acontecer, deciframos o nosso código
          * genético ou os amino ácidos da nossa proteína
          * acabaram kkkkkkkkkkkkkkk.
          *
@@ -271,7 +280,7 @@ int main(int argc, char *argv[])
                 {
                     /**
                      * Aqui verificamos se os codóns
-                     * dos amino ácidos a serem testados
+                     * dos amino ácidos a ser testados
                      * são iguais.
                      *
                      * Se sim, o teste falha.
@@ -294,12 +303,14 @@ int main(int argc, char *argv[])
                  */
                 if (falhou == 1)
                 {
+                    // + Uma tentaiva falhada.
                     num_tentativas++;
 
                     printf("%dª tentativa: ", num_tentativas);                        
                     printf("%c == %c: ", proteina[i], proteina[j]);
                     printf("%s == %s\n", registro_de_amin_acidos[i], registro_de_amin_acidos[j]);
 
+                    // Para este loop.
                     break;
                 }
             }
@@ -334,6 +345,13 @@ int main(int argc, char *argv[])
         }
     }
 
+    /**
+     * Se os loops acima terminaram o seu
+     * último loop com uma tentativa falhada,
+     * epah, fizemos tudo que estava ao nosso
+     * alcanse... Mas não  foi possível decifrar
+     * o código genético da proteína dada.
+     */
     if (falhou == 1)
     {
         printf("\nNão foi possível decifrar o código genético da proteína:\n\n%s\n\n na sequência genética dada.\n\n", proteina);            
