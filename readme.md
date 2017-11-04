@@ -8,6 +8,8 @@ Primeiro compile o arquivo `decypher.c` e execute o arquivo compilado assim:
 
 `./arquivo_compilado dados/prot.1 dados/gene.1`.
 
+![Executando o GeneDecypher](outros/print.png "Executando o GeneDecypher em Linux")
+
 Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/prot.1` e `dados/gene.1`) e recolherá as amostras contidas neles. O primeiro arquivo deve ser sempre a proteína e o segundo a sequência genética.
 
 Estas amostras serão analisadas internamente até não ser mais possível analisá-las ou o código genético ter cido decifrado.
@@ -24,12 +26,12 @@ Cada codón só pode conter 3 nucleotides.
 
 Um nucleotide é representado pelas letras {A, C, T, G}.
 
-Perceba tudo isso nessa tabéla:
+Perceba esse resumo na tabéla abaixo:
 
                    col
 
-          | M | S | I | Q | H | M | R |          TODAS AS LETRAS FORMAM A PROTEÍNA.
-    Lin   |att|gct|agc|aat|gct|agc|aat|          CADA LETRA TEM O SEU CODÓN.
+          | M | S | I | Q | H | M | R |   TODAS AS LETRAS FORMAM A PROTEÍNA.
+    Lin   |att|gct|agc|aat|gct|agc|aat|   CADA LETRA TEM O SEU CODÓN.
 
 Lembrando que cada amino ácido só pode conter 3 letras (nucleotides) no seu código genético.
 
