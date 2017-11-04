@@ -27,8 +27,7 @@
 
 /**
  * Contém as constantes necessárias
- * para criarmos os vetores do nosso
- * decifrador.
+ * para criarmos os vetores do decifrador.
  */
 #include "lib/definicoes.h"
 
@@ -36,18 +35,19 @@
  * Contém a função que lê todos
  * os bytes dos arquivos que contêm
  * as amostras necessárias para
- * decifrar o código genético de um
- * amino ácido.
+ * decifrar os códigos genéticos dos
+ * um amino ácidos.
  *
  * Estas amostras são: o arquivo que
- * contém o a proteína e o arquivo
+ * contém a proteína e o arquivo
  * que contém a sequência genética.
  */
 #include "lib/leitor_de_amostras.h"
 
 /**
- * Contém a função que regista cada
- * códon ao seu respectivo amino ácido.
+ * Contém a função que registra e
+ * associa cada códon ao seu respectivo
+ * amino ácido.
  */
 #include "lib/registrador_de_codons.h"
 
@@ -55,10 +55,11 @@
  * O parámetro `argc` indica o número
  * de parámetros passados via terminal.
  *
- * O parámetro `argv` contem os parámetros
- * passados via terminal.
+ * O ponteiro `argv` aponta para o
+ * parámetros passados via terminal.
  *
- * Vamos usá-los para pegar as nossas ficheiros (amostras).
+ * Vamos usá-los para pegar os nomes
+ * das nossas amostras (ficheiros ).
  */
 int main(int argc, char *argv[])
 {
@@ -77,8 +78,8 @@ int main(int argc, char *argv[])
         qtd_amin_acidos = 0,
 
         /**
-         * Quantidade de nucleotides
-         * encontrados na sequência genêtica.
+         * Quantidade de nucleótides
+         * encontrados na sequência genética.
          */
          qtd_nucleotides = 0,
 
@@ -87,6 +88,7 @@ int main(int argc, char *argv[])
          * o código genético da proteína dada.
          */
         num_tentativas = 0,
+
         /**
          * Código genético decifrado?
          * 
@@ -98,17 +100,14 @@ int main(int argc, char *argv[])
 
     char
         /**
-         * Este vetor armazenará as letras que
-         * representarão cada amino ácido
-         * encontrado pelo nosso programa
-         * na proteína.
+         * Este vetor armazenará a nossa
+         * proteína.
          */
         proteina[MAX_AMIN_ACID_NA_PROT],
 
         /**
          * Este vetor armazenará a sequência
-         * de amino ácidos extraídos da nossa
-         * amostra de amino ácidos.
+         * de amino ácidos.
          */
         seq_amin_acidos[MAX_SEQ_GEN],
 
@@ -120,15 +119,18 @@ int main(int argc, char *argv[])
          * Que tentativa?
          *
          * Achar o código genético de um amino
-         * ácido consiste tentar, errar e tentar
-         * de novo até achar.
+         * ácido consiste em tenativa e erro,
+         * tentar, errar e tentar de novo até
+         * achar ou até não poder mais.
          *
          * Só com isso, se entenderes bem de lógica
          * já sabes que vai chover **loops**.
          * 
-         * As linhas representarão os amino ácidos.
-         * As colunas representarão os códigos genéticos
-         * que juntos formam os codóns.
+         * As linhas da nossa matríz representarão
+         * os amino ácidos. As colunas (que armazenarão
+         * um limite de 3 elementos) representarão
+         * os códigos genéticos que juntos formam
+         * os codóns.
          * 
          * Ex:
          *
@@ -136,30 +138,41 @@ int main(int argc, char *argv[])
          *
          * Isto é uma proteína: MHISY.
          *
-         * Cada letra dessa proteína representa um amino ácido.
+         * Cada letra dessa proteína representa
+         * um amino ácido.
          *
          * Cada amino ácido possui um códon.
          *
          * Cada codón possui 3 nucleotide.
          *
-         * Um nucleotide é representado pelas letras {A, C, T, G}
+         * Um nucleotide é representado pelas
+         * letras {a, c, t, g}.
          *
          * Perceba tudo isso nessa tabéla: 
          * 
          *                col
          *
-         *       | M | H | I | S | Y |          TODAS AS LETRAS FORMAM A PROTEÍNA.
-         * Lin   |AGT|TTT|GGA|AAG|ATA|          CADA LETRA TEM O SEU CODÓN.
+         *       | M | H | I | S | Y |     TODAS AS LETRAS FORMAM A PROTEÍNA.
+         * Lin   |agt|ttt|gga|aag|ata|     CADA LETRA TEM O SEU CODÓN.
          * 
          * Lembrando que cada amino ácido
-         * só pode conter 3 letras no seu
-         * código genético.
+         * só pode conter 3 letras (nucleotides)
+         * no seu código genético.
          */
         registro_de_amin_acidos[MAX_AMIN_ACID_NA_PROT][MAX_CODON];
     
     /**
-     * Pegando os ponteiros para o caminho
-     * das amostras.
+     * Pegando os ponteiros que apontam
+     * para o caminho das amostras.
+     * 
+     * É aqui onde recebemos do terminal
+     * os nomes dos arquivos contendo as
+     * amostras.
+     * 
+     * O primeiro arquivo deve sempre ser
+     * o que contem a amostra da proteína,
+     * o segundo deve conter a amostra da
+     * sequência genética.
      */
     char
         *amostra_proteina = argv[1],
@@ -168,28 +181,26 @@ int main(int argc, char *argv[])
     /**
      * Pegando a nossa amostra da proteina.
      * 
-     * O retorno da função `leia_amostra()`
-     * é o número de amino ácidos que a nossa
-     * proteína poderá conter.
-     *
-     * A nossa variável `proteína` será um
-     * ponteiro que receberá de dentro da função
-     * `leia_amostra()` a nossa proteina.
+     * Leia a descrição de como essa função
+     * funciona no arquivo onde ela está.
      */
-    qtd_amin_acidos = leia_amostra(amostra_proteina, proteina);
+    leia_amostra(
+        amostra_proteina,
+        proteina,
+        qtd_amin_acidos
+    );
 
     /**
      * Pegando a nossa amostra da sequência genética.
-     *
-     * O retorno da função `leia_amostra()`
-     * é o número de nucletides que a nossa
-     * sequência genética tem.
-     *
-     * A nossa variável `seq_amin_acidos` será um
-     * ponteiro que receberá de dentro da função
-     * `leia_amostra()` a nossa sequência genética.
+     * 
+     * Leia a descrição de como essa função
+     * funciona no arquivo onde ela está.
      */
-     qtd_nucleotides = leia_amostra(amostra_sequencia_genetica, seq_amin_acidos);
+     leia_amostra(
+         amostra_sequencia_genetica,
+         seq_amin_acidos,
+         qtd_nucleotides
+        );
 
     /**
      * Até aqui já temos a nossa proteína e
