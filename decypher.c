@@ -306,8 +306,7 @@ int main(int argc, char *argv[])
                     // + Uma tentaiva falhada.
                     num_tentativas++;
 
-                    printf("%dª tentativa: ", num_tentativas);                        
-                    printf("%c == %c: ", proteina[i], proteina[j]);
+                    printf("%dª tentativa: %c e %c são iguais -> ", num_tentativas, proteina[i], proteina[j]);
                     printf("%s == %s\n", registro_de_amin_acidos[i], registro_de_amin_acidos[j]);
 
                     // Para este loop.
@@ -332,7 +331,9 @@ int main(int argc, char *argv[])
          */
         if (falhou == 0)
         {
-            printf("\nCódigo genético decifrado: ");
+            printf("\nCódigo genético decifrado!\n");
+            printf("\nTotal de tentativas: %d\n", num_tentativas + 1);
+            printf("Código genético: ");
 
             for (int i = 0; i < qtd_amin_acidos; i++)
             {
