@@ -8,8 +8,6 @@ Primeiro compile o arquivo `decypher.c` e execute o arquivo compilado assim:
 
 `./arquivo_compilado dados/prot.1 dados/gene.1`.
 
-![Executando o GeneDecypher](outros/print.png "Executando o GeneDecypher em Linux")
-
 Este decifrador genético vai ler cada arquivo passado como parámetro (`dados/prot.1` e `dados/gene.1`) e recolherá as amostras contidas neles. O primeiro arquivo deve ser sempre a proteína e o segundo a sequência genética.
 
 Estas amostras serão analisadas internamente até não ser mais possível analisá-las ou o código genético ter cido decifrado.
