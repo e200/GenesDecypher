@@ -65,7 +65,7 @@ int main()
                 {
                     num_tentativas++;
 
-                    printf("%d� tentativa: %c e %c sao iguais -> ", num_tentativas, proteina[i], proteina[j]);
+                    printf("%dª tentativa: %c e %c sao iguais -> ", num_tentativas, proteina[i], proteina[j]);
                     printf("%s == %s\n", registro_de_amin_acidos[i], registro_de_amin_acidos[j]);
 
                     break;
