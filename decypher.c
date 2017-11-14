@@ -26,24 +26,24 @@ int main()
     while ((cod_gen_decifrado == 0) && (num_tentativas < (qtd_nucleotides - qtd_amin_acidos)))
     {
         falhou = 0;
+        
+        int
+            j = 0,
+            byte = num_tentativas;
 
-		int
-			j = 0,
-			byte = num_tentativas;
+        for (int i = 0; i < qtd_amin_acidos; i++)
+        {
+            while (j != 3)
+            {
+                registro_de_amin_acidos[i][j] = sequencia_genetica[byte];
 
-	    for (int i = 0; i < qtd_amin_acidos; i++)
-	    {
-	        while (j != 3)
-	        {
-	            registro_de_amin_acidos[i][j] = sequencia_genetica[byte];
-	
-	            byte++;
-	            j++;
-	        }
-	
-	        j = 0;
-	    }
-	    
+                byte++;
+                j++;
+            }
+
+            j = 0;
+        }
+
         for (int i = 0; i < qtd_amin_acidos; i++)
         {
             for (int j = 0; j <= qtd_amin_acidos; j++)
@@ -65,7 +65,7 @@ int main()
                 {
                     num_tentativas++;
 
-                    printf("%dª tentativa: %c e %c sao iguais -> ", num_tentativas, proteina[i], proteina[j]);
+                    printf("%dï¿½ tentativa: %c e %c sao iguais -> ", num_tentativas, proteina[i], proteina[j]);
                     printf("%s == %s\n", registro_de_amin_acidos[i], registro_de_amin_acidos[j]);
 
                     break;
