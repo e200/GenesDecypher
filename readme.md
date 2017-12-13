@@ -70,3 +70,5 @@ Observe que no caso acima **MS** e **QH** são iguais, então, fazendo o mesmo p
 Neste caso não temos proteínas com codóns iguais, certo? Todos codóns são diferentes. Isso significa que `atgctagcaattgctagcaat` é o nosso código genético decifrado.
 
 Difícil e chato né??? Mas é o processo de decifrar um código genético e é o mesmo processo de **biologia computacional** que o **GeneDecypher** executa.
+
+Esta versão foi escrita e testada em ambiente Linux. Se procura uma versão que funcione em ambientes Windows e seja compatível com DevC++, [veja](https://github.com/e200/GenesDecypher/tree/windows).
